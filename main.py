@@ -1,3 +1,15 @@
+
+# THIS CODE WILL:
+# 1. Import Pitzone CSV "riders.csv"
+# 2. Only include players that have paid their NICA fees
+# 3. Clean up columns to match TeamSnap
+# 4. Remove duplicates with TeamSnap export list "teamsnapexport.csv"
+# 5. Export new paid riders in a dated file CSV
+# Todd Brown 
+# toddcbrown@gmail.com
+# 3/16/2022
+
+
 import pandas as pd
 import numpy as np 
 from datetime import datetime 
@@ -55,14 +67,12 @@ df = df[['First Name', 'Last Name', 'Email Address 1', 'Email Address 1 Label',
 # REMOVE DUPLICATE RECORDS AND CREATE FILE
 try:
   teamsnap = pd.read_csv('teamsnapexport.csv')
-  
   sample = []
   for i in teamsnap.index:
-    sample.append(join_name(teamsnap['First'][i]+teamsnap['Last'][i]))
+    sample.append(join_name(teamsnap['First Name'][i]+teamsnap['Last Name'][i]))
   Name = []
   for i in df.index:
     Name.append(join_name(df['First Name'][i]+df['Last Name'][i]))
-  
   df['Name'] = Name
   df = df[~df['Name'].isin(sample)]
   df = df.drop(['Name'],axis=1)
